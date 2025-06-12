@@ -13,6 +13,8 @@
 
 
 <script>
+    document.getElementById("addContact").addEventListener('click', addContact);
+    // Fetch contacts when the page loads
     document.getElementById("refresh").addEventListener('click', fetchContacts);
 
     function fetchContacts() {
@@ -31,13 +33,16 @@
                 output += `
                 <tr>
                     <td><img src="${rootPath}controller/uploads/${data[a].avatar}" width="40px"></td>
-                    <td><h5>${data[a].firstname}</h5></td>
-                    <td><h5>${data[a].lastname}</h5></td>
+                    <td><h3>${data[a].firstname}</h3></td>
+                    <td><h5 style="color: Green;">${data[a].lastname}</h5></td>
                 </tr>
                         `
             }
             output += "</table>";
             document.getElementById("table").innerHTML = output;
+    }
+    function addContact() {
+        window.open("addContact.html", "_self");
     }
 </script>
 

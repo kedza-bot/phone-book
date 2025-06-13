@@ -30,7 +30,14 @@
     <button type="button" id="editContact">Edit</button>
     <button type="button" id="deleteContact">Delete</button>
     <script src="config.js"></script>
-    
+    <script>
+        // Check if the API key is set
+        if (!apiKey || apiKey === "null") {
+            alert("Missing API key. Please set it first.");
+            window.open("enter-api-key.html", "_self");
+            throw new Error("API key is not set.");
+        }
+    </script>
 
     <script>
 

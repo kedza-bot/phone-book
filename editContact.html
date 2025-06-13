@@ -4,7 +4,124 @@
     <meta charset="UTF-8" />
     <title>editContact</title>
 </head>
-<body>
+<body onload="fetchContacts()">
+    <div id="avatarImage"></div>
+    <form action="" id="editForm">
+        <label for="firstname">First Name:</label>
+        <input type="text" id="firstname" name="firstname" readonly/>
+        <br />
+        <label for="lastname">Last Name:</label>
+        <input type="text" id="lastname" name="lastname" readonly/>
+        <br />
+        <label for="mobile">Mobile:</label>
+        <input type="tel" id="mobile" name="mobile" readonly />
+        <br />
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" readonly />
+        <br />
+        <label for="avatar" hidden>Avatar:</label>
+        <input type="file" id="avatar" name="avatar" accept="image/*" hidden>
+        <br />
+        <br />
+        <button type="button" id="updateContact" hidden>Update Contact</button>
+    </form>
+    <br/>
+    <button type="button" id="homeLink">Home</button>
+    <button type="button" id="editContact">Edit</button>
+    <button type="button" id="deleteContact">Delete</button>
+    <script src="config.js"></script>
     
+
+    <script>
+
+        let id = getId();
+        console.log("Contact ID: " + id);
+
+
+        function getId() {
+            var url = window.location.href;
+            var pos = url.search("=");
+            var id = url.slice(pos + 1);
+            return id;
+        }
+        function fetchContacts() {
+            fetch(rootPath + 'controller/get-contacts/?id=' + id)
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (data) {
+                    displayOutput(data);
+                    console.log(data);
+                });
+        }
+
+        function displayOutput(data) {
+            avatarImage = `
+                <img src="${rootPath}controller/uploads/${data[0].avatar}" width="100px">
+            `
+            document.getElementById("firstname").value = data[0].firstname;
+            document.getElementById("lastname").value = data[0].lastname;
+            document.getElementById("mobile").value = data[0].mobile;
+            document.getElementById("email").value = data[0].email;
+            document.getElementById("avatarImage").innerHTML = avatarImage;
+        }
+
+        function editContact() {
+            document.getElementById("firstname").removeAttribute("readonly");
+            document.getElementById("lastname").removeAttribute("readonly");
+            document.getElementById("mobile").removeAttribute("readonly");
+            document.getElementById("email").removeAttribute("readonly");
+            document.getElementById("avatar").removeAttribute("hidden");
+            document.getElementById("updateContact").hidden = false;
+        }
+        document.getElementById("editContact").addEventListener('click', editContact);
+
+        function updateContact(e){
+            e.preventDefault();
+
+            const form = new FormData(document.querySelector('#editForm'));
+            form.append('id', id);
+            form.append('apiKey', apiKey);
+
+            fetch(rootPath + 'controller/edit-contact/', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json, *.*'
+                },
+                body: form
+            })
+            .then(function(response) {
+                return response.text();
+            })
+            .then(function(data) {
+                if(data == "1") {
+                    alert("Contact updated successfully!");
+                    // Redirect to the main page
+                    goHome();
+                } else {
+                    alert(data);
+                    //redirect to the main page
+                    goHome();
+                }
+            });
+
+            // Check if the API key is set
+            if (!apiKey || apiKey === "null") {
+                alert("Missing API key. Please set it first.");
+                return;
+            }
+        }
+
+
+
+
+
+
+        document.getElementById("homeLink").addEventListener("click", goHome);
+        function goHome() {
+            window.open("index.html", "_self");
+        }
+
+    </script>
 </body>
 </html>

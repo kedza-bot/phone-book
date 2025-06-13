@@ -39,10 +39,16 @@
             const form = new FormData(document.querySelector('#editform'));
             form.append('apikey', apiKey);
 
-            fetch(rootPath + 'controller/add-contact/', {
+            // Check if the API key is set
+            if (!apiKey || apiKey === "null") {
+                alert("Missing API key. Please set it first.");
+                return;
+            }
+
+            fetch(rootPath + 'controller/insert-contact/', {
                 method: 'POST',
                 headers: {
-                    'Accept': 'application/json,*.*'
+                    'Accept': 'application/json, *.*'
                 },
                 body: form
             })

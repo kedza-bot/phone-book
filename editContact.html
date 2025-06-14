@@ -29,15 +29,22 @@
             <input type="email" id="email" name="email" placeholder="Email" readonly class="input-field" />
         </div>
         <br />
-        <input type="file" id="avatar" name="avatar" accept="image/*" hidden>
+        <div class="input-group">
+            <i class="fas fa-image" id="editContacti"></i>
+            <input type="file" id="avatar" name="avatar" accept="image/*" hidden>
+        </div>
+        
         <br />
         <br />
         <button type="button" id="updateContact" hidden>Update Contact</button>
     </form>
     <br/>
+    <div id="button-con">
     <button type="button" id="homeLink">Home</button>
     <button type="button" id="editContact">Edit</button>
     <button type="button" id="deleteContact">Delete</button>
+    </div>
+    
     <script src="config.js"></script>
 
     <script>
@@ -83,6 +90,7 @@
             document.getElementById("updateContact").hidden = false;
         }
         document.getElementById("editContact").addEventListener('click', editContact);
+        document.getElementById("editContacti").addEventListener('click', editContact);
 
         // Function to update the contact
         function updateContact(e){

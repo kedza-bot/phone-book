@@ -3,16 +3,61 @@
 <head>
     <meta charset="UTF-8" />
     <title>phoneBook</title>
+    <link rel="stylesheet" href="index.css" >
+    <script src="https://kit.fontawesome.com/2be268ca3f.js" crossorigin="anonymous"></script>
 </head>
+
 <body onload="fetchContacts()">
+    <div id="nav">
+        <h1>Phone Book</h1> 
+        <button id="addContact" type="button"><i class="fa-solid fa-plus"></i></button>
+        <button id="refresh" type="button"><i class="fa-solid fa-arrows-rotate"></i></button>
+        <button id="search" type="button"><i class="fa-solid fa-magnifying-glass"></i></button>
+        <input type="text" id="searchInput" placeholder="Search Contacts..." onkeyup="searchContacts()" hidden>
+    </div>
+
+<h3>Contacts</h3>
+    
     <div id="table">Contacts loading.............</div>
-    <button id="refresh" type="button">Refresh</button>
-    <button id="addContact" type="button">Add Contact</button>
+    
+    
 
     <script src="config.js"></script>
 
 
 <script>
+document.getElementById("search").addEventListener('click', openSearch);
+    function openSearch() {
+        const searchInput = document.getElementById("searchInput");
+        if (searchInput.hidden) {
+            searchInput.hidden = false;
+            searchInput.focus();
+        } else {
+            searchInput.hidden = true;
+            searchInput.value = ""; // Clear the input when hiding
+            fetchContacts(); // Refresh contacts when hiding
+        }
+    }
+
+    // Function to search contacts based on input
+
+function searchContacts() {
+        const searchInput = document.getElementById("searchInput").value.toLowerCase();
+        fetch(rootPath + 'controller/get-contacts/')
+        .then(function(response){
+            return response.json();
+        })
+        .then(function(data){
+            const filteredData = data.filter(contact => 
+                contact.firstname.toLowerCase().includes(searchInput) || 
+                contact.lastname.toLowerCase().includes(searchInput)
+            );
+            displayOutput(filteredData);
+        });
+    }
+
+// Add event listener for the "Add Contact" button
+
     document.getElementById("addContact").addEventListener('click', addContact);
     // Fetch contacts when the page loads
     document.getElementById("refresh").addEventListener('click', fetchContacts);
@@ -28,13 +73,13 @@
         })
     }
     function displayOutput(data){
-        output = "<table>";
+        output = "<table class='contact-table'>";
             for(a in data){
                 output += `
-                <tr onclick="editContact(${data[a].id})">
+                <tr class="contact-row" onclick="editContact(${data[a].id})">
                     <td><img src="${rootPath}controller/uploads/${data[a].avatar}" width="40px"></td>
                     <td><h3>${data[a].firstname}</h3></td>
-                    <td><h5 style="color: Green;">${data[a].lastname}</h5></td>
+                    <td><h5">${data[a].lastname}</h5></td>
                 </tr>
                         `
             }

@@ -36,7 +36,7 @@
         
         <br />
         <br />
-        <button type="button" id="updateContact" hidden>Update Contact</button>
+        <button type="button" id="updateContact" hidden>Save</button>
     </form>
     <br/>
     <div id="button-con">
@@ -72,7 +72,7 @@
 
         function displayOutput(data) {
             avatarImage = `
-                <img src="${rootPath}controller/uploads/${data[0].avatar}" width="100px">
+                <img src="${rootPath}controller/uploads/${data[0].avatar}" class="img">
             `
             document.getElementById("firstname").value = data[0].firstname;
             document.getElementById("lastname").value = data[0].lastname;
@@ -89,8 +89,12 @@
             document.getElementById("avatar").removeAttribute("hidden");
             document.getElementById("updateContact").hidden = false;
         }
+        
+
         document.getElementById("editContact").addEventListener('click', editContact);
         document.getElementById("editContacti").addEventListener('click', editContact);
+
+
 
         // Function to update the contact
         function updateContact(e){

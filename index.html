@@ -16,7 +16,7 @@
         <input type="text" id="searchInput" placeholder="Search Contacts..." onkeyup="searchContacts()" hidden>
     </div>
 
-<h3>Contacts</h3>
+<h3 class="h3">Contacts</h3>
     
     <div id="table">Contacts loading.............</div>
     
@@ -77,9 +77,9 @@ function searchContacts() {
             for(a in data){
                 output += `
                 <tr class="contact-row" onclick="editContact(${data[a].id})">
-                    <td><img src="${rootPath}controller/uploads/${data[a].avatar}" width="40px"></td>
+                    <td><img class="home-img" src="${rootPath}controller/uploads/${data[a].avatar}"></td>
                     <td><h3>${data[a].firstname}</h3></td>
-                    <td><h5">${data[a].lastname}</h5></td>
+                    <td><h5>${data[a].lastname}</h5></td>
                 </tr>
                         `
             }

@@ -55,8 +55,7 @@ body{
     font-size: 1rem;
 }
 #nav button:hover i {
-    background-color: #888080;
-    
+    color: #0d3bd4;
 }
 .contact-table {
     width: 100%;
@@ -264,8 +263,9 @@ color: #0d3bd4;
     }
     #searchInput{
         height: 20px;
-        width: 40px;
+        width: 100px;
         margin-top: 10px;
+        padding: 5px;
         font-size: 1rem;
     }
     #searchInput::placeholder{
